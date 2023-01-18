@@ -1,5 +1,4 @@
 package com.ssafy.ws.step6_3;
-//import java.util.Arrays;
 
 public class BookManager1 {
 	/** 도서정보 저장 배열. 자료저장구조 최대크기 상수 설정.*/
@@ -31,13 +30,14 @@ public class BookManager1 {
 	 *  */
 	public void add(Book1 b) {
 		if(size < MAX_SIZE) {
-			if(isBook(Book1.getIsdn())){
-				
+			if(isBook(b.getIsbn()) == -1){
+				books[size++] = b;
+			}else {
+				System.out.printf("%s 도서번호는 이미 등록되어 있습니다.\n", b.getIsbn());
 			}
 		}else {
-			
-		}System.out.println("더이상 추가불가");
-			books[size++] = b;
+			System.out.printf("%s 도서번호는 이미 등록되어 있습니다.\n", b.getIsbn());
+		}
 	}
 	
 	
@@ -61,22 +61,7 @@ public class BookManager1 {
 		return tmpArr;
 	}
 	
-	 
-// 잡지 목록 조회
-//	public Magazine1[] getMagazines() {
-//		Magazine1[] magazines = new Magazine1[size];
-//		int tmpSize = 0;
-//		for(int index = 0; index < size; index++) {
-//			if(books[index] instanceof Magazine1) {
-//				magazines[tmpSize++] = (Magazine1)books[index];
-//			}
-//		}
-//		
-//		Magazine1[] tmpMagazines = new Magazine1[tmpSize];
-//		for(int index = 0; index < tmpsize; index++) {
-//			
-//		}
-//	}
+	//잡지만 불러오기
 	public Magazine1[] getMagazines() {
 		int mg_count = 0;
 		for(int idx = 0; idx < this.size; idx++) {
@@ -98,7 +83,8 @@ public class BookManager1 {
 		
 		return magazine;
 	}
-	//일반도서만
+	
+	//일반도서만 불러오기
 	public Book1[] getBooks() {
 		int nb_counts = 0;
 		for(int idx = 0; idx < this.size; idx++) {
@@ -141,17 +127,27 @@ public class BookManager1 {
 		int tmpSize = 0; // title로 검색된 도서의 숫자
 		
 		for (int index = 0; index < tmpBooks.length; index++) {
-			if(tmpBooks[index].equals(title)) {
+			if(tmpBooks[index].getTitle().contains(title)) {
 				titleBooks[tmpSize++] = tmpBooks[index];
 			}
 		}
-		
+		if(tmpSize == 0)
+			return null;
 		Book1[] resultBooks = new Book1[tmpSize];
 		for(int index = 0; index < tmpSize; index++) {
 			resultBooks[index] = titleBooks[index];
 		}
 		
 		return resultBooks;
+	}
+	
+	/* 도러리스트 가격의 총합**/
+	public int sum_price() {
+		int sum_p = 0;
+		for(int i = 0; i < size; i++) {
+			sum_p += books[i].getPrice();
+		}
+		return sum_p;
 	}
 	
 	/** 
@@ -161,12 +157,5 @@ public class BookManager1 {
 	public void printHead(String head) {
 		System.out.printf("########## %s ##########%n", head);
 	}
-	
-	//전체도서 평균가격
-
-	
-
-	
-	
 	
 }

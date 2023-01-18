@@ -22,22 +22,45 @@ public class BookTest1 {
 		bm.add(b4);
 		books = bm.getList();
 		
-		System.out.println("********************도서 전체 목록********************");
+		/* 전체 도서 목록 출력 **/
+		bm.printHead("도서 전체 목록");
 		for (Book1 m : books) {
 			System.out.println(m);
 		}
 		
-		System.out.println();
-		System.out.println("********************잡지 전체 목록********************");
+		/* 잡지 목록만 출력 **/
+		System.out.println();//공백 라인
+		bm.printHead("잡지 전체 목록");
 		for(Book1 n : bm.getMagazines()) {
 			System.out.println(n);
 		}
 		
+		/* 일반 도서 목록만 출력 **/
 		System.out.println();
-		System.out.println("********************일반도서 전체 목록********************");
+		bm.printHead("일반도서 전체 목록");
 		for(Book1 n : bm.getBooks()) {
 			System.out.println(n);
 		}
 		
+		/* 도서번호로 해당 도서 정보 출력**/
+		System.out.println();
+		bm.printHead("입력(도서 번호)하신 도서 정보");
+		System.out.println(bm.searchByisbn("21424"));
+		
+		/* 도서 제목 검색해서 해당 도서 정보 출력**/
+		System.out.println();
+		bm.printHead("입력(도서 제목)하신 도서 정보");
+		for(Book1 n: bm.searchByTitle("Java")) {
+			System.out.println(n);
+		}
+		
+		/* 등록된 도서들의 총 가격 **/
+		System.out.println();
+		bm.printHead("등록된 도서들의 총 가격 ");
+		System.out.println(bm.sum_price()+"원");
+		
+		/* 등록된 도서들의 평균 가격**/
+		bm.printHead("등록된 도서들의 총 가격 ");
+		System.out.println((double)bm.sum_price()/(bm.getList().length)+"원");
 	}
 }

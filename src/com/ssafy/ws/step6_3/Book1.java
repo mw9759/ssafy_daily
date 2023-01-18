@@ -115,27 +115,14 @@ public class Book1 {
 		builder.append("|");
 		builder.append(String.format("%-9s",title));
 		builder.append("|");
-		builder.append(String.format("%-20s",author));
+		builder.append(String.format("%-10s",author));
 		builder.append("|");
-		builder.append(String.format("%-20s",publisher));
+		builder.append(String.format("%-10s",publisher));
 		builder.append("|");
-		builder.append(String.format("%-20s",price));
+		builder.append(String.format("%-10s",price));
 		builder.append("|");
-		builder.append(String.format("%-20s",desc));
+		builder.append(String.format("%-15s",desc));
 		return builder.toString();
 	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-//	@Override
-//	public String toString() {
-//		return String.format("%-20s| %-20s| %-20s| %-20s| %-20s| %-20s", isbn, title, author, publisher, price, desc);
-//	}
-//	
-	
-	
-	
-	
 }
 
