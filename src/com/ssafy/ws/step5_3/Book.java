@@ -70,10 +70,27 @@ public class Book {
 		this.desc = desc;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
-		return "Book [isbn=" + isbn + ", title=" + title + ", author=" + author + ", publisher=" + publisher
-				+ ", price=" + price + ", desc=" + desc + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append(String.format("%-10s", isbn));
+		builder.append("|");
+		builder.append(String.format("%-8.7s", title));
+		builder.append("|");
+		builder.append(String.format("%-9s", author));
+		builder.append("|");
+		builder.append(String.format("%-9s", publisher));
+		builder.append("|");
+		builder.append(String.format("%-9d", price));
+		builder.append("|");
+		builder.append(String.format("%-9s", desc));
+		return builder.toString();
 	}
+	
+	
+
 	
 }
