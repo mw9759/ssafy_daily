@@ -101,7 +101,7 @@ public class BookManager1 {
 		int a = 0;
 		for(int index = 0; index < this.size; index++) {
 			if(!(books[index] instanceof Magazine1)) {
-				n_books[a++] = (Book1)books[index];
+				n_books[a++] = books[index];
 			}
 		}
 		

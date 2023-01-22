@@ -108,22 +108,45 @@ public class BookManagerImpl implements IBookManager {
 
 	@Override
 	public Book1 searchByisbn(String isbn) {
-		// TODO Auto-generated method stub
+		int index = isBook(isbn);
+		if(index >= 0) {
+			return books[index];
+		}
+		System.out.println("오류. 해당 도서를 찾을 수 없습니다."+isbn);
 		return null;
 	}
 
 	@Override
 	public Book1[] searchByTitle(String title) {
-		// TODO Auto-generated method stub
-		return null;
+		Book1[] tmpBooks = getList();//현재 등록된 전체 도서 정보
+		Book1[] titleBooks = new Book1[size];
+		
+		int tmpSize = 0; // title로 검색된 도서의 숫자
+		
+		for (int index = 0; index < tmpBooks.length; index++) {
+			if(tmpBooks[index].getTitle().contains(title)) {
+				titleBooks[tmpSize++] = tmpBooks[index];
+			}
+		}
+		if(tmpSize == 0)
+			return null;
+		Book1[] resultBooks = new Book1[tmpSize];
+		for(int index = 0; index < tmpSize; index++) {
+			resultBooks[index] = titleBooks[index];
+		}
+		
+		return resultBooks;
 	}
 
 	@Override
 	public int sum_price() {
-		// TODO Auto-generated method stub
-		return 0;
+		int sum_p = 0;
+		for(int i = 0; i < size; i++) {
+			sum_p += books[i].getPrice();
+		}
+		return sum_p;
 	}
-
+	
 	@Override
 	public void printHead(String head) {
 		System.out.printf("########## %s ##########%n", head);
