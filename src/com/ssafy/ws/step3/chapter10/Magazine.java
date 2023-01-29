@@ -3,17 +3,17 @@ package com.ssafy.ws.step3.chapter10;
  * 잡지 정보를 나타내는 클래스
  */
 
-public class Magazine extends Book{ // 상속 선언
-	/** 잡지 년도 */
-	private  int year;
-	/** 잡지 월 */
-	private  int month;
+public class Magazine extends Book{
+	private int year;
+	private int month;
 	
-	/** 기본 생성자 */
-	public Magazine(String isbn, String title, String author,
-			String publisher, int price, String desc, int quantity,
-			int year, int month) {
-		super(isbn, title,author, publisher,price, desc, quantity);
+	//생성자
+	public Magazine() {}
+	
+	//초기화 생성자.
+	public Magazine(String isbn, String title, String author, String publisher, int price
+			, String desc, int quantity, int year, int month) {
+		super(isbn, title, author, publisher, price, desc, quantity);
 		this.year = year;
 		this.month = month;
 	}
@@ -46,14 +46,17 @@ public class Magazine extends Book{ // 상속 선언
 		this.month = month;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append(super.toString());
-		builder.append("|");
-		builder.append(String.format("%-10s",year));
-		builder.append("|");
-		builder.append(String.format("%-10s",month));
+		builder.append("| ");
+		builder.append(String.format("%4d", year));
+		builder.append("| ");
+		builder.append(String.format("%4d", month));
 		return builder.toString();
 	}
 }

@@ -9,8 +9,6 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ssafy.hw.step2.chapter10.User;
-import com.ssafy.hw.step2.chapter10.UserManagerImpl;
 
 
 /**
@@ -19,26 +17,15 @@ import com.ssafy.hw.step2.chapter10.UserManagerImpl;
 
 public class BookManagerImpl implements IBookManager {
 	/* Singletone Pattern 적용 설계**/
-	/** 도서의 등록갯수 및 도서 추가 등록시 배열요소 인덱스 번호 멤버변수.*/
-	private List<Book> books = new ArrayList<>();
-
-	private final int MAX_SIZE = 100;
-
-	private static BookManagerImpl um = new BookManagerImpl();
-
-	private BookManagerImpl() {
-	};
-
+	private static BookManagerImpl instance = new BookManagerImpl();
+	private BookManagerImpl() {}
 	public static BookManagerImpl getInstance() {
-		return um;
+		return instance;
 	}
+	/** 도서의 등록갯수 및 도서 추가 등록시 배열요소 인덱스 번호 멤버변수.*/
+	private List<Book> books= new ArrayList<>();
 	
-	@Override
-	public int getSize() {
-		return books.size();
-	}
-
-	@Override
+	//도서번호로 인덱스 확인 / 도서 등록 유무 확인 
 	public int isBook(String isdn) {
 		for(int index = 0; index < books.size(); index++) {
 			if(books.get(index).getIsbn().equals(isdn)) {
@@ -48,74 +35,63 @@ public class BookManagerImpl implements IBookManager {
 		return -1;
 	}
 
+	//도서 추가
 	@Override
 	public void add(Book b) {
-		if(books.size() < MAX_SIZE) {
-			if(isBook(b.getIsbn()) == -1){
-				books.add(b);
-			}else {
-				System.out.printf("%s 도서번호는 이미 등록되어 있습니다.\n", b.getIsbn());
-			}
+		if(isBook(b.getIsbn()) == -1) {
+			books.add(b);
 		}else {
-			System.out.printf("%s 도서번호는 이미 등록되어 있습니다.\n", b.getIsbn());
+			System.out.println("해당 도서는 이미 등록되어 있습니다.");
 		}
 	}
-
+	
+	//도서 제거
 	@Override
 	public void remove(String isbn) {
 		int index = isBook(isbn);
-		if (index >= 0){
+		if(index>=0) {
 			books.remove(index);
-		}else {
-			System.out.println("삭제불가"+isbn);
+		} else {
+			System.out.println("제거할 도서를 찾지 못했습니다.");
 		}
 	}
-
+	
+	//전체 리스트
 	@Override
 	public Book[] getList() {
 		Book[] res = new Book[books.size()];
-		return this.books.toArray(res);
+		return books.toArray(res);
 	}
-
+	
+	//잡지 리스트
 	@Override
 	public Magazine[] getMagazines() {
-		List<Book> list = new ArrayList<>();
-		
-		for(int index = 0; index < books.size(); index++) {
-			if(books.get(index) instanceof Magazine) {
-				list.add(books.get(index));
+		List<Magazine> mgs = new ArrayList<>();
+		for(int i = 0; i < books.size(); i++) {
+			if(books.get(i) instanceof Magazine) {
+				mgs.add((Magazine) books.get(i));
 			}
 		}
-		Magazine[] res = new Magazine[list.size()];
-		//this.books.toArray(res)
-		return (Magazine[]) list.toArray(res);
+		Magazine[] mg = new Magazine[mgs.size()];
+		return mgs.toArray(mg);	
 	}
-
+	
+	//일반도서 리스트
 	@Override
 	public Book[] getBooks() {
-		int nb_counts = 0;
-		for(int idx = 0; idx < books.size(); idx++) {
-			if(!(books.get(idx) instanceof Magazine)) {
-				nb_counts++;
+		List<Book> bks = new ArrayList<>();
+		for(int i = 0; i < books.size(); i++) {
+			if(!(books.get(i) instanceof Magazine)) {
+				bks.add(books.get(i));
 			}
 		}
-		
-		if(nb_counts == 0) {
-			return null;
-		}
-		Book[] n_books = new Book[nb_counts];
-		
-		int a = 0;
-		for(int index = 0; index < books.size(); index++) {
-			if(!(books.get(index) instanceof Magazine)) {
-				n_books[a++] = books.get(index);
-			}
-		}
-		return n_books;
+		Book[] mg = new Book[bks.size()];
+		return bks.toArray(mg);
 	}
 
+	//도서 번호로 정보 조회
 	@Override
-	public Book searchByisbn(String isbn) {
+	public Book searchByIsbn(String isbn) {
 		int index = isBook(isbn);
 		if(index >= 0) {
 			return books.get(index);
@@ -124,28 +100,20 @@ public class BookManagerImpl implements IBookManager {
 		return null;
 	}
 
+	//제목 검색
 	@Override
 	public Book[] searchByTitle(String title) {
-		Book[] tmpBooks = getList();//현재 등록된 전체 도서 정보
-		Book[] titleBooks = new Book[books.size()];
-		
-		int tmpSize = 0; // title로 검색된 도서의 숫자
-		
-		for (int index = 0; index < tmpBooks.length; index++) {
-			if(tmpBooks[index].getTitle().contains(title)) {
-				titleBooks[tmpSize++] = tmpBooks[index];
+		List<Book> sbb = new ArrayList<>();
+		for(int i = 0; i < books.size(); i++) {
+			if(books.get(i).getTitle().contains(title)) {
+				sbb.add(books.get(i));
 			}
 		}
-		if(tmpSize == 0)
-			return null;
-		Book[] resultBooks = new Book[tmpSize];
-		for(int index = 0; index < tmpSize; index++) {
-			resultBooks[index] = titleBooks[index];
-		}
-		
-		return resultBooks;
+		Book[] b = new Book[sbb.size()];
+		return sbb.toArray(b);
 	}
-
+	
+	//총 도서 가격.
 	@Override
 	public int getTotalPrice() {
 		int sum_p = 0;
@@ -171,7 +139,7 @@ public class BookManagerImpl implements IBookManager {
 		if(check == -1) {
 			throw new ISBNNotFoundException(isbn);
 		}
-		else if(books.get(check).getQuantity()-quantity < 0) {
+		else if(books.get(check).getQuantity() < quantity) {
 			throw new QuantityException();
 		}
 		else {
@@ -196,33 +164,59 @@ public class BookManagerImpl implements IBookManager {
 
 	@Override
 	public void saveData() {
-		// try with resources
-		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("src/user.dat"))) {
-			oos.writeObject(this.books);
-		} catch (Exception e) {
+		//데이터파일 저장 폴더 생성
+		File foldername = new File("src/data");
+		if(!foldername.exists()) {
+			foldername.mkdir();
+			System.out.println("[정보] 데이터 파일 저장용 폴더를 생성하였습니다. " + foldername.getAbsolutePath());
+		}
+		
+		// 데이터 저장.
+		File file = new File("src/data/book.dta");
+		ObjectOutputStream out = null; //초기값 빈 상태로 선언.
+		try {
+			out = new ObjectOutputStream(new FileOutputStream(file, false));
+			out.writeObject(books);
+			System.out.println("[성공] 총 "+books.size()+"권의 도서 데이터를 저장하였습니다.");
+		} catch(Exception e) {
 			e.printStackTrace();
+			System.out.println(e.getMessage());
+			System.out.println("[실패] 파일 저장시에 문제가 발생했습니다.");
+		}
+		finally {
+			if(out != null) {
+				try {
+					out.close();
+				} catch(IOException e){
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 
 	//데이터 불러오기
-	@Override
+	@Override//개발중 오류발생시 디버깅!
 	public void loadData() {
 		// TODO Auto-generated method stub
-		File file = new File("src/book.dat");
+		File file = new File("src/data/book.dta");
 		
 		// 파일이 없을 경우 고려
-		if(file.exists() && file.isFile() && file.canRead()) {
+		if(file.exists() && file.canRead() && file.isFile()) {
 			// try with resources
-			try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))){
-				this.books = (List<Book>)ois.readObject();
-			} catch (Exception e) {
-				e.printStackTrace();//개발중 오류발생시 디버깅!
+			try(ObjectInputStream in = new ObjectInputStream(new FileInputStream(file))){
+				books = (List<Book>)in.readObject();
+				System.out.printf("[성공] 도서 총 %d권 정보를 로드하였습니다.\n", books.size());
+			} catch(Exception e) {
+				e.printStackTrace();
+				System.out.println(e.getLocalizedMessage());
+				// ??? : 멤버변수 선언 및 명시적 초기화
+				books = new ArrayList<>();
 			}
+		}else {
+			System.out.println("[실패] 불러올 파일이 없습니다.");
+			// ??? : 멤버변수 선언 및 명시적 초기화
+			books = new ArrayList<>();
 		}
 	}
-	
-	
-	
-
 }
 

@@ -1,5 +1,7 @@
 package com.ssafy.ws.step3.chapter10;
 
+import java.util.List;
+
 /**
  * BookManager 클래스를 이용하여 도서 객체 추가,삭제,조회하는 클래스
  */
@@ -15,11 +17,9 @@ public class BookTest {
 	
 	public static void main(String[] args) { // 인터페이스 이용.
 		//도서 관리 기능을 사용하기 위한 BookManagerImpl 객체 생성 사용
-		IBookManager mngr1 = BookManagerImpl.getInstance();
-		List<Book> books = null;
+		BookManagerImpl mngr1 = BookManagerImpl.getInstance();
 //		List<Magazine> 
 		Book[] books = null;
-		Book book = null;
 		//파일 불러오기
 		mngr1.loadData();
 		
@@ -47,14 +47,15 @@ public class BookTest {
 		/* 일반 도서 목록만 출력 **/
 		System.out.println();
 		mngr1.printHead("일반도서 전체 목록");
-		for(Book n : mngr1.getBooks()) {
+		books = mngr1.getBooks();
+		for(Book n : books) {
 			System.out.println(n);
 		}
 		
 		/* 도서번호로 해당 도서 정보 출력**/
 		System.out.println();
 		mngr1.printHead("입력(도서 번호)하신 도서 정보");
-		System.out.println(mngr1.searchByisbn("21424"));
+		System.out.println(mngr1.searchByIsbn("21424"));
 		
 		/* 도서 제목 검색해서 해당 도서 정보 출력**/
 		System.out.println();
@@ -98,5 +99,8 @@ public class BookTest {
 			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
 		}
+		
+		//종료시 수행문
+		mngr1.saveData();
 	}
 }

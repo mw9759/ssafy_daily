@@ -5,29 +5,27 @@ import java.io.Serializable;
 /**
  * 도서 정보를 나타내는 클래스
  */
-public class Book implements Serializable{ //중요.입출력시에 필수.
-	private static final long serialVersionUID = 1L; //직렬화 객체시 지정하는 ID
+public class Book implements Serializable{
 	//도서번호
 	private String isbn;
+	//제목
 	private String title;
+	//저자
 	private String author;
+	//출판사
 	private String publisher;
+	//가격
 	private int price;
+	//도서설명
 	private String desc;
+	//재고
 	private int quantity;
-	/* 기본 생성자 */
-	public Book() {}
 	
-	/** 전체데이터 초기화 생성자
-	 * @param isbn
-	 * @param title
-	 * @param author
-	 * @param publisher
-	 * @param price
-	 * @param desc
-	 * */
-	public Book(String isbn, String title, String author,
-			String publisher, int price, String desc, int quantity) {
+	//생성자
+	public Book() {}
+	//초기화 생성자 
+	public Book(String isbn, String title, String author, String publisher, int price
+			, String desc, int quantity) {
 		this.isbn = isbn;
 		this.title = title;
 		this.author = author;
@@ -36,7 +34,6 @@ public class Book implements Serializable{ //중요.입출력시에 필수.
 		this.desc = desc;
 		this.quantity = quantity;
 	}
-	
 	
 	
 	/**
@@ -111,34 +108,40 @@ public class Book implements Serializable{ //중요.입출력시에 필수.
 	public void setDesc(String desc) {
 		this.desc = desc;
 	}
-
+	/**
+	 * @return the quantity
+	 */
 	public int getQuantity() {
 		return quantity;
 	}
-
+	/**
+	 * @param quantity the quantity to set
+	 */
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append(String.format("%-8s",isbn));
-		builder.append("|");
-		builder.append(String.format("%-9s",title));
-		builder.append("|");
-		builder.append(String.format("%-10s",author));
-		builder.append("|");
-		builder.append(String.format("%-10s",publisher));
-		builder.append("|");
-		builder.append(String.format("%-10s",price));
-		builder.append("|");
-		builder.append(String.format("%-15s",desc));
-		builder.append("|");
-		builder.append(String.format("%-15s",quantity));
+		builder.append(String.format("%-10s", isbn));
+		builder.append("| ");
+		builder.append(String.format("%-15s", title));
+		builder.append("| ");
+		builder.append(String.format("%-10s", author));
+		builder.append("| ");
+		builder.append(String.format("%-10s", publisher));
+		builder.append("| ");
+		builder.append(String.format("%7d", price));
+		builder.append("| ");
+		builder.append(String.format("%-10s", desc));
+		builder.append("| ");
+		builder.append(String.format("%-4d", quantity));
 		return builder.toString();
 	}
+	
+	
 }
