@@ -12,6 +12,7 @@ public class BookTest {
 	public static Book b1 = new Book("21424", "Java Pro", "김하나", "jaen.kr", 15000, "Java 기본문법",10);
 	public static Book b2 = new Book("21425", "Java Pro2", "김하나", "jaen.kr", 25000, "Java 응용",20);
 	public static Book b3 = new Book("35355", "분석설계        ", "소나무", "jaen.kr", 30000, "SW 모델링",30);
+	public static Book b5 = new Book("353355", "분석설계        ", "소나무", "jaen.kr", 30000, "SW 모델링",30);
 	//잡지
 	public static Magazine b4 = new Magazine("45678", "월간 알고리즘 ", "홍길동", "jaen.kr", 10000, "1월 알고리즘", 40, 2021, 1);
 	
@@ -27,6 +28,7 @@ public class BookTest {
 		mngr1.add(b2);
 		mngr1.add(b3);
 		mngr1.add(b4);
+		mngr1.add(b5);
 		books = mngr1.getList();
 		
 		
